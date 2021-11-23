@@ -7,15 +7,9 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UserRequest {
+public class UpdateUserRequest {
 	@NotEmpty(message = "first name cannot be null or empty")
 	private String firstName;
 	@NotEmpty(message = "last name cannot be null")
 	private String lastName;
-	@NotEmpty(message = "email cannot be null")
-	private String email;
-	@NotEmpty(message = "password cannot be null")
-	private String password;
-	@NotEmpty(message="role cannot be null")
-	private String role;
 }

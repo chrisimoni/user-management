@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.chrisimoni.usermanagement.request.UpdateUserPasswordRequest;
+import com.chrisimoni.usermanagement.request.UpdateUserRequest;
 import com.chrisimoni.usermanagement.request.UserRequest;
 import com.chrisimoni.usermanagement.response.RestResponse;
 import com.chrisimoni.usermanagement.service.UserService;
@@ -27,36 +28,43 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	RestResponse restResponse;
-	
-	
+
 	@PostMapping("/users/create_user")
-	public ResponseEntity<?> createUser() {
-		return ResponseEntity.status(HttpStatus.OK).body("create user");
-//		Map.Entry<Boolean, Object> result = userService.createUser(userRequest);
-//		return restResponse.reponse(result);
+	public ResponseEntity<?> createUser(@Valid @RequestBody UserRequest userRequest) {
+		Map.Entry<Boolean, Object> result = userService.createUser(userRequest);
+		return restResponse.reponse(result);
 	}
-	@GetMapping("/users")
+
+	@GetMapping("/users/get_all_users")
 	public ResponseEntity<?> getAllUsers() {
-		return ResponseEntity.status(HttpStatus.OK).body("All users");
+		Map.Entry<Boolean, Object> result = userService.getAllUsers();
+		return restResponse.reponse(result);
 	}
-	
-	@GetMapping("/users/{userid}")
+
+	@GetMapping("/users/get_user/{userid}")
 	public ResponseEntity<?> getUsers(@PathVariable("userid") String userId) {
-		return ResponseEntity.status(HttpStatus.OK).body("user");
+		Map.Entry<Boolean, Object> result = userService.getUser(userId);
+		return restResponse.reponse(result);
 	}
-	
-	@PutMapping("/users/{userid}")
-	public ResponseEntity<?> updateUser(@PathVariable("userid") String userId, @Valid @RequestBody UserRequest userRequest) {
-		return ResponseEntity.status(HttpStatus.OK).body("update user");
+
+	@PutMapping("/users/update_user/{userid}")
+	public ResponseEntity<?> updateUser(@PathVariable("userid") String userId,
+			@Valid @RequestBody UpdateUserRequest userRequest) {
+		Map.Entry<Boolean, Object> result = userService.updateUser(userId, userRequest);
+		return restResponse.reponse(result);
 	}
-	
-	@DeleteMapping("/users/{userid}")
+
+	@DeleteMapping("/users/delete_user/{userid}")
 	public ResponseEntity<?> deleteUser(@PathVariable("userid") String userId) {
-		return ResponseEntity.status(HttpStatus.OK).body("delete user");
+		Map.Entry<Boolean, Object> result = userService.deleteUser(userId);
+		return restResponse.reponse(result);
 	}
 	
-	@PostMapping("/users/save")
-	public String hello() {
-		return "hello";
+	@PutMapping("/users/update_password/{userid}")
+	public ResponseEntity<?> updatePassword(@PathVariable("userid") String userId,
+			@Valid @RequestBody UpdateUserPasswordRequest userRequest) {
+		Map.Entry<Boolean, Object> result = userService.updatePassword(userId, userRequest);
+		return restResponse.reponse(result);
 	}
+
 }

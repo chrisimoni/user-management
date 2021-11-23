@@ -1,5 +1,9 @@
 package com.chrisimoni.usermanagement.response;
 
+import java.util.Collection;
+
+import com.chrisimoni.usermanagement.entity.Role;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +14,5 @@ public class UserResponse {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private String role;
+	private Collection<Role> roles;
 }
